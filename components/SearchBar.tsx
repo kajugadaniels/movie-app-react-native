@@ -1,10 +1,8 @@
 import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import { icons } from '@/constants/icons'
-import { useRouter } from 'expo-router'
 
 const SearchBar = () => {
-    const router = useRouter()
     return (
         <View className="flex-row items-center px-5 py-4 rounded-full bg-darl-200">
             <Image source={icons.search} className='resize' resizeMode='contain' tintColor='#ab8bff' />
