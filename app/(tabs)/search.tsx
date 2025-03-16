@@ -1,23 +1,22 @@
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { images } from '@/constants/images'
 import useFetch from '@/services/usefetch'
 import { fetchMovies } from '@/services/api'
-import { useRouter } from 'expo-router'
 import MovieCard from '@/components/MovieCard'
 import { icons } from '@/constants/icons'
 import SearchBar from '@/components/SearchBar'
 
 const Search = () => {
-  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const {
     data: movies,
     loading,
     error
   } = useFetch(() => fetchMovies({
-    query: ''
-  }))
+    query: searchQuery
+  }), false)
 
   return (
     <View className='flex-1 bg-primary'>
@@ -44,7 +43,11 @@ const Search = () => {
             </View>
 
             <View className='my-5'>
-              <SearchBar placeholder='Search movies' />
+              <SearchBar
+                placeholder='Search movies'
+                value={searchQuery}
+                onChangeText={(text: string) => setSearchQuery(text)}
+              />
             </View>
 
             {loading && (
@@ -57,11 +60,11 @@ const Search = () => {
               </Text>
             )}
 
-            {!loading && !error && 'SEARCH TERM'.trim() && movies?.length! > 0 && (
+            {!loading && !error && searchQuery.trim() && movies?.length > 0 && (
               <Text className="text-xl font-bold text-white">
                 Search Results for {' '}
                 <Text className='text-accent'>
-                  SEARCH TERM
+                  {searchQuery}
                 </Text>
               </Text>
             )}
